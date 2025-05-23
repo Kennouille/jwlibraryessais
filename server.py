@@ -13,7 +13,6 @@ import io
 import traceback
 import threading
 
-
 app = Flask(__name__)
 app.config['PROPAGATE_EXCEPTIONS'] = True
 CORS(app, origins=["https://jwmergeessais.netlify.app"])
