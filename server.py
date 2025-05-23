@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
+from flask import make_response
 from datetime import datetime
 import os
 import zipfile
@@ -1039,8 +1040,10 @@ def upload_files():
         return response, 200
 
     if 'file1' not in request.files or 'file2' not in request.files:
-        return jsonify({"error": "Veuillez envoyer deux fichiers userData.db"}), 400
-
+        response = jsonify({"error": "Veuillez envoyer deux fichiers userData.db"})
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        return response, 400
+    
     file1 = request.files['file1']
     file2 = request.files['file2']
 
