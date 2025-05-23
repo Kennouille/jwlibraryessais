@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
+from flask_cors import cross_origin
 from flask import make_response
 from datetime import datetime
 import os
@@ -1031,30 +1032,23 @@ def merge_location_from_sources(merged_db_path, file1_db, file2_db):
     return location_id_map
 
 
-
-@app.route('/upload', methods=['GET', 'POST'])
+@app.route('/upload', methods=['GET', 'POST', 'OPTIONS'])
+@cross_origin()  # ou: @cross_origin(origins="https://jwmergeessais.netlify.app")
 def upload_files():
     if request.method == 'GET':
-        response = jsonify({"message": "Route /upload fonctionne (GET) !"})
-        response.headers.add("Access-Control-Allow-Origin", "*")
-        return response, 200
+        return jsonify({"message": "Route /upload fonctionne (GET) !"}), 200
 
     if 'file1' not in request.files or 'file2' not in request.files:
-        response = jsonify({"error": "Veuillez envoyer deux fichiers userData.db"})
-        response.headers.add("Access-Control-Allow-Origin", "*")
-        return response, 400
-    
+        return jsonify({"error": "Veuillez envoyer deux fichiers userData.db"}), 400
+
     file1 = request.files['file1']
     file2 = request.files['file2']
 
-    # Définir les dossiers d'extraction (où sera placé chaque fichier userData.db)
     extracted1 = os.path.join("extracted", "file1_extracted")
     extracted2 = os.path.join("extracted", "file2_extracted")
-
     os.makedirs(extracted1, exist_ok=True)
     os.makedirs(extracted2, exist_ok=True)
 
-    # Supprimer les anciens fichiers s'ils existent
     file1_path = os.path.join(extracted1, "userData.db")
     file2_path = os.path.join(extracted2, "userData.db")
 
@@ -1063,13 +1057,10 @@ def upload_files():
     if os.path.exists(file2_path):
         os.remove(file2_path)
 
-    # Sauvegarde des fichiers userData.db
     file1.save(file1_path)
     file2.save(file2_path)
 
-    response = jsonify({"message": "Fichiers userData.db reçus et enregistrés avec succès !"})
-    response.headers.add("Access-Control-Allow-Origin", "*")
-    return response, 200
+    return jsonify({"message": "Fichiers userData.db reçus avec succès !"}), 200
 
 
 @app.route('/analyze', methods=['GET'])
