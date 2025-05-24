@@ -1919,6 +1919,14 @@ def merge_data():
         file1_db = os.path.join(EXTRACT_FOLDER, "file1_extracted", "userData.db")
         file2_db = os.path.join(EXTRACT_FOLDER, "file2_extracted", "userData.db")
 
+        print("🧪 DEBUG /merge")
+        print("Chemin attendu fichier 1 :", file1_db)
+        print("Chemin attendu fichier 2 :", file2_db)
+        print("Fichier 1 existe :", os.path.exists(file1_db))
+        print("Fichier 2 existe :", os.path.exists(file2_db))
+        print("Contenu du dossier extracted/:",
+              os.listdir("extracted") if os.path.exists("extracted") else "Dossier non trouvé")
+
         # Validation fichiers sources
         if not all(os.path.exists(db) for db in [file1_db, file2_db]):
             return jsonify({"error": "Fichiers source manquants"}), 400
