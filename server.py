@@ -1909,7 +1909,8 @@ def merge_data():
 
     try:
         global note_mapping  # Si vous souhaitez utiliser le scope global (optionnel)
-        payload = request.get_json()
+        payload = request.get_json(silent=True) or {}
+        print("🧪 Payload JSON reçu :", payload)
         conflict_choices_notes = payload.get("conflicts_notes", {})
         conflict_choices_highlights = payload.get("conflicts_highlights", {})
         local_datetime = payload.get("local_datetime")
