@@ -1,3 +1,6 @@
+print("🚨 DÉMARRAGE DE SERVER.PY - VERSION ESSAIS")
+
+
 from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 from flask_cors import cross_origin
