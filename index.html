@@ -731,7 +731,10 @@
           "Content-Type": "application/json",
           "ngrok-skip-browser-warning": "true"
         },
-        body: JSON.stringify({ local_datetime: localDatetime })
+        body: JSON.stringify({
+          local_datetime: localDatetime,
+          file_id: "TEST_ID" // ← Ajoutez ce champ obligatoire
+        })
       });
 
       if (!response.ok) {
