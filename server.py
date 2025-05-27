@@ -1037,13 +1037,11 @@ def merge_location_from_sources(merged_db_path, file1_db, file2_db):
 
 
 @app.route('/upload', methods=['GET', 'POST', 'OPTIONS'])
-@cross_origin()  # Autorise tout pour le test
+@cross_origin()
 def upload_files():
     if request.method == 'OPTIONS':
-        # Répondre au preflight
         response = app.make_default_options_response()
         headers = response.headers
-
         headers['Access-Control-Allow-Origin'] = '*'
         headers['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS'
         headers['Access-Control-Allow-Headers'] = 'Content-Type'
@@ -1055,7 +1053,24 @@ def upload_files():
     if 'file1' not in request.files or 'file2' not in request.files:
         return jsonify({"error": "missing files"}), 400
 
-    # Traitement des fichiers
+    file1 = request.files['file1']
+    file2 = request.files['file2']
+
+    extracted1 = os.path.join("extracted", "file1_extracted")
+    extracted2 = os.path.join("extracted", "file2_extracted")
+    os.makedirs(extracted1, exist_ok=True)
+    os.makedirs(extracted2, exist_ok=True)
+
+    file1_path = os.path.join(extracted1, "userData.db")
+    file2_path = os.path.join(extracted2, "userData.db")
+
+    file1.save(file1_path)
+    file2.save(file2_path)
+
+    print("✅ /upload : fichiers enregistrés")
+    print("  -", file1_path, "→", os.path.exists(file1_path))
+    print("  -", file2_path, "→", os.path.exists(file2_path))
+
     return jsonify({"message": "Upload OK"}), 200
 
 
