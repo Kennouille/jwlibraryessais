@@ -1890,11 +1890,14 @@ def merge_platform_metadata(merged_db_path, db1_path, db2_path):
                 cursor.execute("INSERT INTO grdb_migrations (identifier) VALUES (?)", (ident,))
 
 
-@app.route('/merge', methods=['POST', 'OPTIONS'])
-@cross_origin(origins=["https://jwmergeessais.netlify.app"])
+@app.route('/merge', methods=['GET', 'POST', 'OPTIONS'])  # Ajoutez GET
+@cross_origin(origins=["*"])  # Temporairement permissif
 def merge_data():
+    print("⚡ Requête reçue - Méthode:", request.method)  # Nouveau log
     if request.method == 'OPTIONS':
         return jsonify({"status": "ok"}), 200
+    if request.method == 'GET':
+        return jsonify({"test": "OK"}), 200  # Endpoint de test
 
     start_time = time.time()
     open(os.path.join(UPLOAD_FOLDER, "merge_in_progress"), "w").close()
