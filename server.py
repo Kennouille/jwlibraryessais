@@ -20,7 +20,11 @@ import threading
 
 app = Flask(__name__)
 app.config['PROPAGATE_EXCEPTIONS'] = True
-CORS(app, origins=["https://jwmergeessais.netlify.app"])
+CORS(app,
+     origins=["https://jwmergeessais.netlify.app", "https://jwmerge.netlify.app"],
+     supports_credentials=True,
+     expose_headers=["Content-Disposition"])
+
 
 UPLOAD_FOLDER = "uploads"
 EXTRACT_FOLDER = "extracted"
