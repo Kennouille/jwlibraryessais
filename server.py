@@ -1916,7 +1916,7 @@ def merge_data():
 
     try:
         global note_mapping  # Si vous souhaitez utiliser le scope global (optionnel)
-        payload = request.get_json(force=True)  # Remplacez request.get_json(silent=True)
+        payload = request.get_json(silent=True) or {}
         print("🔍 Payload reçu :", payload)  # Debug crucial
         print("🔍 Headers reçus :", dict(request.headers))
         print("🔍 Body brut :", request.get_data())
