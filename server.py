@@ -1890,10 +1890,11 @@ def merge_platform_metadata(merged_db_path, db1_path, db2_path):
                 cursor.execute("INSERT INTO grdb_migrations (identifier) VALUES (?)", (ident,))
 
 
-@app.route('/merge', methods=['POST', 'OPTIONS'])  # Ajoutez OPTIONS
+@app.route('/merge', methods=['POST', 'OPTIONS'])
+@cross_origin(origins=["https://jwmergeessais.netlify.app"])
 def merge_data():
     if request.method == 'OPTIONS':
-        return jsonify({"status": "ok"}), 200  # Réponse pour les pré-vol CORS
+        return jsonify({"status": "ok"}), 200
 
     start_time = time.time()
     open(os.path.join(UPLOAD_FOLDER, "merge_in_progress"), "w").close()
@@ -2799,8 +2800,11 @@ def save_merge_stats(stats):
         json.dump(stats, f)
 
 
-@app.route("/track-merge", methods=["POST"])
+@app.route('/track-merge', methods=['POST', 'OPTIONS'])
+@cross_origin(origins=["https://jwmergeessais.netlify.app"])
 def track_merge():
+    if request.method == 'OPTIONS':
+        return jsonify({"status": "ok"}), 200
     try:
         data = request.get_json()
         status = data.get("status")
