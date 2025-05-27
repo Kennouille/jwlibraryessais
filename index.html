@@ -729,11 +729,11 @@
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "ngrok-skip-browser-warning": "true"
+          "X-File-ID": "TEST_ID" // ← Ajoutez ce header
         },
         body: JSON.stringify({
           local_datetime: localDatetime,
-          file_id: "TEST_ID" // ← Ajoutez ce champ obligatoire
+          file_id: await getUploadedFileId() // ← Récupérez l'ID du fichier uploadé
         })
       });
 
