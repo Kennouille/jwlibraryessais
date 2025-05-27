@@ -1918,6 +1918,8 @@ def merge_data():
         global note_mapping  # Si vous souhaitez utiliser le scope global (optionnel)
         payload = request.get_json(force=True)  # Remplacez request.get_json(silent=True)
         print("🔍 Payload reçu :", payload)  # Debug crucial
+        print("🔍 Headers reçus :", dict(request.headers))
+        print("🔍 Body brut :", request.get_data())
 
         if not payload or 'file_id' not in payload:  # Validation minimale
             return jsonify({"error": "Paramètres manquants"}), 400
