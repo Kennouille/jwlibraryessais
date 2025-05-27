@@ -1890,10 +1890,12 @@ def merge_platform_metadata(merged_db_path, db1_path, db2_path):
                 cursor.execute("INSERT INTO grdb_migrations (identifier) VALUES (?)", (ident,))
 
 
-@app.route('/merge', methods=['POST'])
+@app.route('/merge', methods=['POST', 'OPTIONS'])  # Ajoutez OPTIONS
 def merge_data():
+    if request.method == 'OPTIONS':
+        return jsonify({"status": "ok"}), 200  # Réponse pour les pré-vol CORS
+
     start_time = time.time()
-    # Au tout début du merge
     open(os.path.join(UPLOAD_FOLDER, "merge_in_progress"), "w").close()
 
     # ─── 0. Initialisation des variables utilisées plus bas ─────────────────────────────
