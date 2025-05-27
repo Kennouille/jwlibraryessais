@@ -20,10 +20,7 @@ import threading
 
 app = Flask(__name__)
 app.config['PROPAGATE_EXCEPTIONS'] = True
-CORS(app,
-     origins=["https://jwmergeessais.netlify.app", "https://jwmerge.netlify.app"],
-     supports_credentials=True,
-     expose_headers=["Content-Disposition"])
+CORS(app, origins=["https://jwmerge*.netlify.app"])  # Autorise les deux
 
 
 UPLOAD_FOLDER = "uploads"
